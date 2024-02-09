@@ -1,5 +1,7 @@
 package com.example.mi_primera_api_rest.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -7,6 +9,7 @@ import lombok.Data;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Set;
 
 @Entity
 @Data
@@ -22,7 +25,7 @@ public class Race {
     private int round;
 
     @OneToOne
-    @JoinColumn(name = "circuitid", referencedColumnName = "circuitid")
+    @JoinColumn(name = "circuitid")
     private Circuit circuit;
 
     @Column(nullable = false)
@@ -32,5 +35,10 @@ public class Race {
     @Column(nullable = false)
     private LocalTime time;
     private String url;
+
+    @OneToMany(mappedBy = "race")
+    @JsonIgnoreProperties("race")
+    @JsonBackReference
+    private Set<Result> results;
 }
 
