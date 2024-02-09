@@ -6,6 +6,9 @@ import com.example.mi_primera_api_rest.mapper.DriverDTOMapper;
 import com.example.mi_primera_api_rest.model.Driver;
 import com.example.mi_primera_api_rest.repository.DriverRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -43,4 +46,8 @@ public class DriverServiceImpl implements DriverService {
         return driverRepository.getDriverByDriverId(id);
     }
 
+    @Override
+    public Page<Driver> getAllDriversSorted(Integer page, Integer size, String sortBy, String sortDirection) {
+        return driverRepository.findAllProjectedBy(PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortDirection), sortBy)));
+    }
 }

@@ -5,6 +5,7 @@ import com.example.mi_primera_api_rest.projections.DriverDetails;
 import com.example.mi_primera_api_rest.model.Driver;
 import com.example.mi_primera_api_rest.service.DriverService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,6 +40,18 @@ public class DriverRestController {
     public ResponseEntity<Optional<DriverDetails>> getDriverByDriverId(@PathVariable Long id) {
         return ResponseEntity.ok(driverService.getDriverByDriverId(id));
     }
+
+    @GetMapping("/drivers/sorted")
+    public ResponseEntity<List<Driver>> getAllDriversSorted(
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "10") Integer size,
+            @RequestParam(defaultValue = "driverId") String sortBy,
+            @RequestParam(defaultValue = "ASC") String sortDirection)
+    {
+        Page<Driver> list = driverService.getAllDriversSorted(page, size, sortBy, sortDirection);
+        return ResponseEntity.ok(list.getContent());
+    }
+
 
     @PostMapping("/drivers")
     public ResponseEntity<Driver> create(@RequestBody Driver driver) {
