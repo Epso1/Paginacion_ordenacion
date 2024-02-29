@@ -52,7 +52,7 @@ public class ConstructorRestController {
 
 
     @DeleteMapping("/constructors/{name}")
-    public ResponseEntity<Driver> deleteByName(@PathVariable String constructorref) {
+    public ResponseEntity<Constructor> deleteByName(@PathVariable String constructorref) {
         this.constructorService.deleteConstructorByConstructorref(constructorref);
         return ResponseEntity.noContent().build();
     }
